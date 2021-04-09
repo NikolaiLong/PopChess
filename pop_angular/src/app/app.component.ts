@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import * as coercion from '@angular/cdk/coercion';
+import * as keycodes from '@angular/cdk/keycodes';
+
+// http socket
 
 @Component({
   selector: 'app-root',
@@ -7,4 +11,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'PopChess';
+  username = 'hi';
 }

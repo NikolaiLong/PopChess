@@ -1,0 +1,83 @@
+
+
+.custom {
+  max-width: 400px;
+  margin-top: 150px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+  display: grid;
+  grid-template-columns: 25px;
+  grid-template-rows: 75px;
+  grid-template-areas:
+    "time inc"
+    "button";
+}
+
+.time {
+  grid-area: time;
+  max-width: 150px;
+  margin-left: 25px;
+  margin-right: 25px;
+  margin-bottom: 10px;
+  display: grid;
+  grid-template-rows: 75px;
+  grid-template-areas:
+    "time-form"
+    "time-sliders"
+}
+
+.time-form {
+  grid-area: time-form;
+}
+
+.time-slider {
+  grid-area: time-slider;
+}
+
+.inc {
+  grid-area: inc;
+  max-width: 150px;
+  margin-bottom: 10px;
+  display: grid;
+  grid-template-rows: 75px;
+  grid-template-areas:
+    "inc-form"
+    "inc-sliders"
+}
+
+.inc-form {
+  grid-area: inc-form;
+}
+
+.inc-slider {
+  grid-area: inc-slider;
+}
+
+.button {
+  grid-area: button;
+}
+
+.play-but {
+  width: 350px;
+  height: 45px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 25px;
+}
+
+.standard {
+
+}
+
+.standard-times {
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.time-but {
+  width: 99px;
+  height: 99px;
+  font-size: 20px;
+}
