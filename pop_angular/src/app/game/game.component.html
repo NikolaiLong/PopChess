@@ -1,1 +1,9 @@
-<p>game works!</p>
+
+<mat-card class="board">
+  <mat-grid-list class="standard-times" cols="8" rowHeight="1:1">
+    <mat-grid-tile *ngFor="let button of buttons" colspan="1">
+      <app-game-button class="game-button" [piece]="button"></app-game-button>
+    </mat-grid-tile>
+
+  </mat-grid-list>
+</mat-card>

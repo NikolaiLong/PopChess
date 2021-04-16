@@ -1,68 +1,69 @@
 
-
-<style>
-  .custom {
-    position: absolute;
-    top: 100px;
-    height: 100px;
-    width: 100px;
-    margin:2em;
-  }
-</style>
-
 <mat-card class="custom">
-  <mat-card-title>hello</mat-card-title>
-<!--  <mat-card class="time">-->
-<!--    <section class="time-form">-->
-<!--      <mat-form-field class="time-form-field">-->
-<!--        <mat-label>Time Format</mat-label>-->
-<!--        <input matInput type="number" [(ngModel)]="time">-->
-<!--      </mat-form-field>-->
-<!--    </section>-->
-<!--    <section class="time-slider">-->
-<!--      <mat-slider-->
-<!--        class="time-slider-slide"-->
-<!--        min="1"-->
-<!--        max="30"-->
-<!--        step="1"-->
-<!--        [(ngModel)]="time">-->
-<!--      </mat-slider>-->
-<!--    </section>-->
-<!--  </mat-card>-->
+  <mat-grid-list class="custom-list" cols="2" rowHeight="100px">
 
-<!--  <mat-card class="inc">-->
-<!--    <section class="inc-form">-->
-<!--      <mat-form-field class="inc-form-field">-->
-<!--        <mat-label>Increment</mat-label>-->
-<!--        <input matInput type="number" [(ngModel)]="increment">-->
-<!--      </mat-form-field>-->
-<!--    </section>-->
-<!--    <section class="inc-slider">-->
-<!--      <mat-slider-->
-<!--        class="inc-slider-slide"-->
-<!--        min="0"-->
-<!--        max="30"-->
-<!--        step="1"-->
-<!--        [(ngModel)]="increment"-->
-<!--        thumbLabel>-->
-<!--      </mat-slider>-->
-<!--    </section>-->
-<!--  </mat-card>-->
+  <mat-grid-tile class="time-section" colspan="1" rowspan="2">
+  <mat-card class="time">
+    <mat-grid-list class="time-list" cols="1" rowHeight="75px">
+    <section class="time-form" colspan="1">
+      <mat-form-field class="time-form-field">
+        <mat-label>Time Format</mat-label>
+        <input matInput type="number" [(ngModel)]="time">
+      </mat-form-field>
+    </section>
+    <section class="time-slider" colspan="1">
+      <mat-slider
+        class="time-slider-slide"
+        min="1"
+        max="30"
+        step="1"
+        [(ngModel)]="time">
+      </mat-slider>
+    </section>
+    </mat-grid-list>
+  </mat-card>
+  </mat-grid-tile>
 
-<!--  <section class="button">-->
-<!--    <button mat-raised-button class="play-but">Play</button>-->
-<!--  </section>-->
+  <mat-grid-tile class="inc-section" colspan="1" rowspan="2">
+  <mat-card class="inc">
+    <mat-grid-list class="time-list" cols="1" rowHeight="75px">
+    <section class="inc-form" colspan="1">
+      <mat-form-field class="inc-form-field">
+        <mat-label>Increment</mat-label>
+        <input matInput type="number" [(ngModel)]="increment">
+      </mat-form-field>
+    </section>
+    <section class="inc-slider" colspan="1">
+      <mat-slider
+        class="inc-slider-slide"
+        min="0"
+        max="30"
+        step="1"
+        [(ngModel)]="increment"
+        thumbLabel>
+      </mat-slider>
+    </section>
+    </mat-grid-list>
+  </mat-card>
+  </mat-grid-tile>
+
+
+  <mat-grid-tile class="button" colspan="2">
+    <button mat-raised-button class="play-but">Play</button>
+  </mat-grid-tile>
+
+  </mat-grid-list>
 </mat-card>
 
-<!--<mat-card class="standard">-->
-<!--  <mat-grid-list class="standard-times" cols="4" rowHeight="1:1">-->
-<!--    <mat-grid-tile><button class="time-but">1+0</button></mat-grid-tile>-->
-<!--    <mat-grid-tile><button class="time-but">2+3</button></mat-grid-tile>-->
-<!--    <mat-grid-tile><button class="time-but">3+3</button></mat-grid-tile>-->
-<!--    <mat-grid-tile><button class="time-but">5+5</button></mat-grid-tile>-->
-<!--    <mat-grid-tile><button class="time-but">10+0</button></mat-grid-tile>-->
-<!--    <mat-grid-tile><button class="time-but">10+5</button></mat-grid-tile>-->
-<!--    <mat-grid-tile><button class="time-but">15+10</button></mat-grid-tile>-->
-<!--    <mat-grid-tile><button class="time-but">30+15</button></mat-grid-tile>-->
-<!--  </mat-grid-list>-->
-<!--</mat-card>-->
+<mat-card class="standard">
+  <mat-grid-list class="standard-times" cols="4" rowHeight="1:1">
+    <mat-grid-tile><button class="time-but">1+0</button></mat-grid-tile>
+    <mat-grid-tile><button class="time-but">2+3</button></mat-grid-tile>
+    <mat-grid-tile><button class="time-but">3+3</button></mat-grid-tile>
+    <mat-grid-tile><button class="time-but">5+5</button></mat-grid-tile>
+    <mat-grid-tile><button class="time-but">10+0</button></mat-grid-tile>
+    <mat-grid-tile><button class="time-but">10+5</button></mat-grid-tile>
+    <mat-grid-tile><button class="time-but">15+10</button></mat-grid-tile>
+    <mat-grid-tile><button class="time-but">30+15</button></mat-grid-tile>
+  </mat-grid-list>
+</mat-card>

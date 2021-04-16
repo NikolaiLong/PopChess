@@ -1,61 +1,33 @@
-
-
 .custom {
-  max-width: 400px;
-  margin-top: 150px;
+  width: 500px;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 10px;
-  display: grid;
-  grid-template-columns: 25px;
-  grid-template-rows: 75px;
-  grid-template-areas:
-    "time inc"
-    "button";
 }
 
 .time {
-  grid-area: time;
-  max-width: 150px;
-  margin-left: 25px;
-  margin-right: 25px;
-  margin-bottom: 10px;
-  display: grid;
-  grid-template-rows: 75px;
-  grid-template-areas:
-    "time-form"
-    "time-sliders"
+  height: 150px;
+  width: 150px;
 }
 
-.time-form {
-  grid-area: time-form;
+.time-form-field {
+  width: 100px;
 }
 
-.time-slider {
-  grid-area: time-slider;
+.time-slider-slide {
+  width: 100px;
 }
 
 .inc {
-  grid-area: inc;
-  max-width: 150px;
-  margin-bottom: 10px;
-  display: grid;
-  grid-template-rows: 75px;
-  grid-template-areas:
-    "inc-form"
-    "inc-sliders"
+  height: 150px;
+  width: 150px;
 }
 
-.inc-form {
-  grid-area: inc-form;
+.inc-form-field {
+  width: 100px;
 }
 
-.inc-slider {
-  grid-area: inc-slider;
-}
-
-.button {
-  grid-area: button;
+.inc-slider-slide {
+  width: 100px;
 }
 
 .play-but {
@@ -67,11 +39,16 @@
 }
 
 .standard {
-
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 235px;
+  width: 500px;
 }
 
 .standard-times {
-  max-width: 400px;
+  height: 250px;
+  width: 400px;
   margin-left: auto;
   margin-right: auto;
 }

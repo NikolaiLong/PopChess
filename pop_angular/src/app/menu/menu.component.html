@@ -1,15 +1,13 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport
       mode="over">
-    <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item href="#">Link 1</a>
-      <a mat-list-item href="#">Link 2</a>
-      <a mat-list-item href="#">Link 3</a>
+      <a mat-list-item routerLink="/">Play</a>
+      <a mat-list-item routerLink="/profile">Profile</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar color="primary">
+    <mat-toolbar class="toolbar">
       <button
         class="button"
         type="button"
@@ -23,4 +21,5 @@
   </mat-sidenav-content>
 </mat-sidenav-container>
 
-<router-outlet></router-outlet>
+
+
