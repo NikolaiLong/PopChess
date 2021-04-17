@@ -1,1 +1,23 @@
 
+.container {
+  width: 800px;
+  height: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.board {
+  width: 640px;
+  height: 640px;
+}
+
+.info {
+  width: 160px;
+  height: 640px;
+}
+
+.confirm {
+  width: 605px;
+  height: 55px;
+  font-size: 20px;
+}
