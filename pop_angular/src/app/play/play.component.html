@@ -1,5 +1,8 @@
+<mat-card *ngIf="inQueue" class="background">
+  <app-queue [time]="time" [increment]="increment"></app-queue>
+</mat-card>
 
-<mat-card class="custom">
+<mat-card *ngIf="!inQueue" class="custom">
   <mat-grid-list class="custom-list" cols="2" rowHeight="100px">
 
   <mat-grid-tile class="time-section" colspan="1" rowspan="2">
@@ -49,21 +52,21 @@
 
 
   <mat-grid-tile class="button" colspan="2">
-    <button mat-raised-button class="play-but" routerLink="/game">Play</button>
+    <button mat-raised-button class="play-but" (click)="queue(-1,-1)">Play</button>
   </mat-grid-tile>
 
   </mat-grid-list>
 </mat-card>
 
-<mat-card class="standard">
+<mat-card *ngIf="!inQueue" class="standard">
   <mat-grid-list class="standard-times" cols="4" rowHeight="1:1">
-    <mat-grid-tile><button class="time-but" routerLink="/game">1+0</button></mat-grid-tile>
-    <mat-grid-tile><button class="time-but" routerLink="/game">2+3</button></mat-grid-tile>
-    <mat-grid-tile><button class="time-but" routerLink="/game">3+3</button></mat-grid-tile>
-    <mat-grid-tile><button class="time-but" routerLink="/game">5+5</button></mat-grid-tile>
-    <mat-grid-tile><button class="time-but" routerLink="/game">10+0</button></mat-grid-tile>
-    <mat-grid-tile><button class="time-but" routerLink="/game">10+5</button></mat-grid-tile>
-    <mat-grid-tile><button class="time-but" routerLink="/game">15+10</button></mat-grid-tile>
-    <mat-grid-tile><button class="time-but" routerLink="/game">30+15</button></mat-grid-tile>
+    <mat-grid-tile><button class="time-but" (click)="queue(1,0)">1+0</button></mat-grid-tile>
+    <mat-grid-tile><button class="time-but" (click)="queue(2,3)">2+3</button></mat-grid-tile>
+    <mat-grid-tile><button class="time-but" (click)="queue(3,3)">3+3</button></mat-grid-tile>
+    <mat-grid-tile><button class="time-but" (click)="queue(5,5)">5+5</button></mat-grid-tile>
+    <mat-grid-tile><button class="time-but" (click)="queue(10,0)">10+0</button></mat-grid-tile>
+    <mat-grid-tile><button class="time-but" (click)="queue(10,5)">10+5</button></mat-grid-tile>
+    <mat-grid-tile><button class="time-but" (click)="queue(15,10)">15+10</button></mat-grid-tile>
+    <mat-grid-tile><button class="time-but" (click)="queue(30,15)">30+15</button></mat-grid-tile>
   </mat-grid-list>
 </mat-card>

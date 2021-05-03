@@ -1,47 +1,48 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const app = require('express')();
+const http = require('http').createServer(app);
+const io = require('socket.io')(http, {
+  cors:{
+    origin: 'http://localhost:4200',
+    methods: ['GET', 'POST'],
+  }
+});
+const cors = require('cors');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-
-var app = express();
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-
-// catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+  res.header("Access-Control-Allow-Origin", "http://localhost:4200");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
 });
-
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+app.use(cors());
+app.get('/', function(req, res) {
+  res.json("hello world");
 });
+app.use('/user', require('./routes/user.router'));
+app.use('/game', require('./routes/game.router'));
 
-module.exports = app;
-
-// start server
+// Port Connection for Socket
 const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 3030;
-app.listen(port, function () {
-  console.log('Server listening on port ' + port);
+http.listen(port, () => {
+  console.log(`listening on *:${port}`);
 });
+
+// Socket Interaction
+io.on('connection', socket => {
+  console.log('a user connected');
+
+  socket.on('enterQueue', () => {
+    console.log('entered queue');
+
+
+
+  })
+
+  socket.on('disconnect', () => {
+    console.log('a user disconnected');
+  });
+});
+
+// // Port Connection for HTTP Requests
+// app.listen(port, () => {
+//   console.log(`listening on *:${port}`);
+// });

@@ -25,6 +25,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { GameButtonComponent } from './game-button/game-button.component';
+import { QueueComponent } from './queue/queue.component';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+
+const config: SocketIoConfig = { url: 'http://localhost:3030', options: {} };
 
 @NgModule({
   declarations: [
@@ -36,6 +40,7 @@ import { GameButtonComponent } from './game-button/game-button.component';
     GameComponent,
     MenuComponent,
     GameButtonComponent,
+    QueueComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +57,8 @@ import { GameButtonComponent } from './game-button/game-button.component';
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    SocketIoModule.forRoot(config)
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }, DatePipe],

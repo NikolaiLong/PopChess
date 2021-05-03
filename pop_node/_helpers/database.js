@@ -3,4 +3,7 @@ const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGODB_URI || config.connectionString, { useCreateIndex: true, useNewUrlParser: true });
 //mongoose.Promise = global.Promise;
 
-module.exports = {};
+module.exports = {
+    User: require('../_models/user.model'),
+    Queue: require('../_models/queue.model'),
+};
