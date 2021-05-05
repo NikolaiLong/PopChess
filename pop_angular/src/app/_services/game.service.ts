@@ -37,7 +37,7 @@ export class GameService {
   }
 
   public inQueue(): void {
-    this.socket.emit('enterQueue');
+    this.socket.emit('enterQueue', this.currentUser.username);
     this.socket.on('message', message => {
       console.log(message);
     });

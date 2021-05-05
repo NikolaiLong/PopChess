@@ -56,11 +56,11 @@ io.on('connection', socket => {
           })
   })
 
-  socket.on('enterQueue', () => {
-    queue.enQueue('hi')
+  socket.on('enterQueue', username => {
+    queue.enQueue(username)
         .then(() => {
           socket.emit('message', 'entered queue');
-          queue.inQueue('hi')
+          queue.inQueue(username)
               .then(() => {
                 console.log('found match');
                 socket.emit('match');
