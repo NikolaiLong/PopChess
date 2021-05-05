@@ -27,14 +27,20 @@ http.listen(port, () => {
 });
 
 // Socket Interaction
+const queue = require('./_helpers/queue');
 io.on('connection', socket => {
   console.log('a user connected');
 
   socket.on('enterQueue', () => {
-    console.log('entered queue');
-
-
-
+    queue.enQueue('hi')
+        .then(() => {
+          socket.emit('message', 'entered queue');
+          queue.inQueue('hi')
+              .then(() => {
+                console.log('found match');
+                socket.emit('match');
+              });
+        });
   })
 
   socket.on('disconnect', () => {

@@ -1,8 +1,11 @@
-module.exports = enQueue();
-module.exports = inQueue();
 const db = require('./database');
 const Queue = db.Queue;
 const User = db.User;
+
+module.exports = {
+    enQueue,
+    inQueue,
+};
 
 async function enQueue(username){
     // validate
@@ -20,6 +23,7 @@ async function enQueue(username){
     await inq.save();
 }
 
-function inQueue(){
-
+async function inQueue(username){
+    console.log('searching for match');
+    const user = await User.findOne({ username: username });
 }
