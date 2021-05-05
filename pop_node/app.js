@@ -29,6 +29,7 @@ http.listen(port, () => {
 // Socket Interaction
 const userService = require('./services/user.service');
 const queue = require('./_helpers/queue');
+const board = require('./_helpers/board');
 io.on('connection', socket => {
   console.log('a user connected');
 
@@ -41,7 +42,7 @@ io.on('connection', socket => {
           .catch(err => {
               console.log('register error');
               socket.emit('error', err);
-          })
+          });
   });
 
   socket.on('login', body => {
@@ -53,20 +54,37 @@ io.on('connection', socket => {
           .catch(err => {
               console.log('logging in error');
               socket.emit('error', err);
-          })
-  })
+          });
+  });
 
   socket.on('enterQueue', username => {
     queue.enQueue(username)
-        .then(() => {
+        .then(async function () {
           socket.emit('message', 'entered queue');
-          queue.inQueue(username)
-              .then(() => {
-                console.log('found match');
-                socket.emit('match');
+          await queue.inQueue(username)
+              .then((match) => {
+                  if (match) {socket.emit('match');}
               });
         });
   });
+
+  socket.on('getUser', username => {
+      userService.getByUsername(username)
+          .then(user => {
+              socket.emit('gotUser', user);
+          })
+          .catch(err => {
+              console.log('logging in error');
+              socket.emit('error', err);
+          });
+  });
+
+  socket.on('getBoard', gameID => {
+    board.getBoard(gameID)
+        .then(pieces => {
+            socket.emit('gotBoard', pieces);
+        })
+  })
 
   socket.on('disconnect', () => {
     console.log('a user disconnected');

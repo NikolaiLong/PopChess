@@ -13,7 +13,13 @@ module.exports = {
 
 async function authenticate(username, password) {
 
-    const user = await User.findOne({ username });
+    let user = await User.findOne({ username });
+    if (user) {
+        console.log('uuuu');
+        await User.updateOne({username: username}, {$set:{gameID: -1}});
+        user = await User.findOne({ username });
+        console.log(user);
+    }
     if (user && bcrypt.compareSync(password, user.hash)) {
         const { hash, ...userWithoutHash } = user.toObject();
         const token = jwt.sign({ sub: user.id, role: user.role }, config.secret);

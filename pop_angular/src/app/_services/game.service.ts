@@ -14,6 +14,7 @@ export class GameService {
 
   socket;
   currentUser;
+  match = false;
 
   constructor(private http: HttpClient,
               private auth: AuthService,
@@ -42,9 +43,24 @@ export class GameService {
       console.log(message);
     });
     this.socket.on('match', () => {
+      this.match = true;
       console.log('match');
       this.router.navigate(['/game']);
     });
+    setTimeout(() => {
+      if (!this.match) {
+        const timer = setInterval(() => {
+          this.socket.emit('getUser', this.currentUser.username);
+          this.socket.on('gotUser', user => {
+            this.currentUser = user;
+          });
+          if (this.currentUser.gameID !== -1) {
+            this.router.navigate(['/game']);
+            clearInterval(timer);
+          }
+        }, 2000);
+      }
+    }, 2000);
   }
 
   public register(user: any): void {
@@ -72,5 +88,14 @@ export class GameService {
 
   public logout(): void {
     this.currentUser = null;
+  }
+
+  public getBoard(): void {
+    this.socket.emit('getBoard', this.currentUser.gameID);
+    let retBoard;
+    this.socket.on('gotBoard', board => {
+      retBoard = board;
+    });
+    return retBoard;
   }
 }

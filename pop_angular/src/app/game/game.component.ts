@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Piece} from '../_models/piece';
+import {GameService} from '../_services/game.service';
 
 @Component({
   selector: 'app-game',
@@ -32,9 +33,17 @@ export class GameComponent implements OnInit {
     {clicked: false, value: 2, col: 0, row: 7}, {clicked: false, value: 3, col: 1, row: 7}, {clicked: false, value: 4, col: 2, row: 7}, {clicked: false, value: 5, col: 3, row: 7},
     {clicked: false, value: 6, col: 4, row: 7}, {clicked: false, value: 4, col: 5, row: 7}, {clicked: false, value: 3, col: 6, row: 7}, {clicked: false, value: 2, col: 7, row: 7}];
 
-  constructor() { }
+  board;
+  user;
+
+  constructor(
+    private gameService: GameService,
+  ) { }
 
   ngOnInit(): void {
+    this.user = this.gameService.currentUser;
+    this.board = this.gameService.getBoard();
+    // for
   }
 
   sendMove(): void {
