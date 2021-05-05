@@ -13,16 +13,27 @@ import {Router} from '@angular/router';
 export class GameService {
 
   socket;
+  currentUser;
 
   constructor(private http: HttpClient,
               private auth: AuthService,
-              private router: Router) { }
+              private router: Router) {
+    this.currentUser = null;
+  }
 
-  connect(): void {
+  public connect(): void {
     this.socket = io(environment.SOCKET_ENDPOINT);
     this.socket.on('connect', message => {
       console.log('connected');
     });
+  }
+
+  public canActivate(): boolean {
+    if (this.currentUser === null) {
+      this.router.navigate(['/login']);
+      return false;
+    }
+    return true;
   }
 
   public inQueue(): void {
@@ -49,12 +60,17 @@ export class GameService {
 
   public login(body: any): void {
     this.socket.emit('login', body);
-    this.socket.on('login', message => {
-      console.log(message);
+    this.socket.on('login', user => {
+      this.currentUser = user;
+      console.log(this.currentUser);
       this.router.navigate(['/']);
     });
     this.socket.on('error', message => {
       console.log(message);
     });
+  }
+
+  public logout(): void {
+    this.currentUser = null;
   }
 }

@@ -22,6 +22,7 @@ async function authenticate(username, password) {
             token
         };
     }
+    return user;
 }
 
 async function getByUsername(username) {

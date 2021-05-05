@@ -46,9 +46,9 @@ io.on('connection', socket => {
 
   socket.on('login', body => {
       userService.authenticate(body.username, body.password)
-          .then(() => {
+          .then((user) => {
               console.log('logged in user');
-              socket.emit('login', 'logged in')
+              socket.emit('login', user);
           })
           .catch(err => {
               console.log('logging in error');

@@ -22,16 +22,7 @@ export class AppComponent implements OnInit {
 
   constructor(  private router: Router,
                 private authService: AuthService,
-                private gameSercive: GameService,
-  ) {
-    this.authService.currentUser.subscribe(x => this.currentUser = x);
-    // const user = this.authService.currentUserValue();
-    // if (user === null) {
-    //   this.initials = '00';
-    // } else {
-    //   this.initials = user.firstName.substring(0, 1) + user.lastName.substring(0, 1);
-    // }
-  }
+                private gameSercive: GameService) { }
 
   ngOnInit(): void {
     this.gameSercive.connect();

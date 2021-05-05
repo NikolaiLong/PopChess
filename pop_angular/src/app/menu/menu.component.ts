@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import {AuthService} from '../_services/auth.service';
 import {Router} from '@angular/router';
+import {GameService} from '../_services/game.service';
 
 @Component({
   selector: 'app-menu',
@@ -20,10 +21,11 @@ export class MenuComponent {
 
   constructor(private breakpointObserver: BreakpointObserver,
               private authService: AuthService,
+              private gameService: GameService,
               private router: Router) {}
 
   logout(): void {
-    this.authService.logout();
+    this.gameService.logout();
     this.router.navigate(['/login']);
   }
 
