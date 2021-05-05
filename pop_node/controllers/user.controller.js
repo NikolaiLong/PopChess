@@ -15,6 +15,7 @@ function authenticate(req, res, next) {
 
 function register(req, res, next) {
     console.log('register');
+    console.log(req.body);
     userService.addUser(req.body)
         .then(() => res.json({}))
         .catch(err => next(err));

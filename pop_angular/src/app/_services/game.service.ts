@@ -35,4 +35,11 @@ export class GameService {
       this.router.navigate(['/game']);
     });
   }
+
+  public register(user: any): void {
+    this.socket.emit('register', user);
+    this.socket.on('message', message => {
+      console.log(message);
+    });
+  }
 }

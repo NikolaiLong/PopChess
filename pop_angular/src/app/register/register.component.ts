@@ -6,6 +6,7 @@ import { first } from 'rxjs/operators';
 import { NotificationService } from '../_services/notification.service';
 import { UserService } from '../_services/user.service';
 import { AuthService } from '../_services/auth.service';
+import {GameService} from '../_services/game.service';
 
 @Component({templateUrl: 'register.component.html',
 
@@ -26,7 +27,8 @@ export class RegisterComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private userService: UserService,
-    private notification: NotificationService
+    private notification: NotificationService,
+    private gameService: GameService
   ) {
     // redirect to home if already logged in
     if (this.authService.currentUserValue()) {
@@ -60,7 +62,9 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    this.loading = true;
+    this.gameService.register(this.registerForm.value);
+
+    // this.loading = true;
     // this.userService.register(this.registerForm.value)
     //   .pipe(first())
     //   .subscribe(

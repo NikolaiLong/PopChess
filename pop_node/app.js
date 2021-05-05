@@ -27,9 +27,22 @@ http.listen(port, () => {
 });
 
 // Socket Interaction
+const userService = require('./services/user.service');
 const queue = require('./_helpers/queue');
 io.on('connection', socket => {
   console.log('a user connected');
+
+  socket.on('register', user => {
+      userService.addUser(user)
+          .then(() => {
+              console.log('registered user');
+              socket.emit('message', 'registered');
+          })
+          .catch(err => {
+              console.log('register error');
+              socket.emit('message', 'error');
+          })
+  })
 
   socket.on('enterQueue', () => {
     queue.enQueue('hi')
@@ -47,8 +60,3 @@ io.on('connection', socket => {
     console.log('a user disconnected');
   });
 });
-
-// // Port Connection for HTTP Requests
-// app.listen(port, () => {
-//   console.log(`listening on *:${port}`);
-// });

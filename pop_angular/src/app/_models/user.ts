@@ -3,5 +3,5 @@ export class User {
   token?: string;
   inQueue: boolean;
   role: string;
-  game: Int8Array;
+  gameID: number;
 }

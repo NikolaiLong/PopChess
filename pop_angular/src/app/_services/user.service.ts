@@ -5,6 +5,7 @@ import {AuthService} from './auth.service';
 import {Router} from '@angular/router';
 import { io } from 'socket.io-client';
 import {environment} from '../_models/environment';
+import {Observable} from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -18,10 +19,9 @@ export class UserService {
   //   return this.http.get<User[]>(`http://localhost:3030/user/allusers`);
   // }
 
-  register(user: User): void {
-    // const socket = io(environment.SOCKET_ENDPOINT);
-    // socket.send('addUser', user);
-    // return this.http.post(`http://localhost:3030/user/register`, user);
+  register(user: any): Observable<any> {
+    console.log(user);
+    return this.http.post(`http://localhost:3030/user/register`, user);
   }
 
   // setGoals(cal: number, min: number) {
