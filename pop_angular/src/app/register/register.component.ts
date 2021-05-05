@@ -42,7 +42,8 @@ export class RegisterComponent implements OnInit {
       role: [''],
       email: ['', [Validators.required, Validators.email]],
       username: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      gameID: ['']
 
     });
 
@@ -56,26 +57,11 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(): void {
     this.submitted = true;
-    // stop here if form is invalid
+    this.registerForm.value.gameID = -1;
     if (this.registerForm.invalid) {
       console.log('Error in onSubmit()');
       return;
     }
-
     this.gameService.register(this.registerForm.value);
-
-    // this.loading = true;
-    // this.userService.register(this.registerForm.value)
-    //   .pipe(first())
-    //   .subscribe(
-    //     data => {
-    //       // this.alertService.success('Registration successful', true);
-    //       this.router.navigate(['/login']);
-    //     },
-    //     error => {
-    //       console.log('Error:', error);
-    //       this.notification.showNotif(error);
-    //       this.loading = false;
-    //     });
   }
 }

@@ -31,6 +31,7 @@ async function getByUsername(username) {
 
 async function addUser(userParam) {
     await console.log('adding');
+    await console.log(userParam.gameID);
 
     // validate
     if (await User.findOne({ username: userParam.username })) {
@@ -39,6 +40,8 @@ async function addUser(userParam) {
     else  if (await User.findOne({ email: userParam.email })) {
         throw 'Email "' + userParam.email + '" is already taken';
     }
+
+
 
     const user = new User(userParam);
 

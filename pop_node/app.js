@@ -40,7 +40,7 @@ io.on('connection', socket => {
           })
           .catch(err => {
               console.log('register error');
-              socket.emit('error', 'error');
+              socket.emit('error', err);
           })
   });
 
@@ -52,7 +52,7 @@ io.on('connection', socket => {
           })
           .catch(err => {
               console.log('logging in error');
-              socket.emit('error', 'error');
+              socket.emit('error', err);
           })
   })
 
