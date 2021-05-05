@@ -36,11 +36,23 @@ io.on('connection', socket => {
       userService.addUser(user)
           .then(() => {
               console.log('registered user');
-              socket.emit('message', 'registered');
+              socket.emit('register', 'registered');
           })
           .catch(err => {
               console.log('register error');
-              socket.emit('message', 'error');
+              socket.emit('error', 'error');
+          })
+  });
+
+  socket.on('login', body => {
+      userService.authenticate(body.username, body.password)
+          .then(() => {
+              console.log('logged in user');
+              socket.emit('login', 'logged in')
+          })
+          .catch(err => {
+              console.log('logging in error');
+              socket.emit('error', 'error');
           })
   })
 
@@ -54,7 +66,7 @@ io.on('connection', socket => {
                 socket.emit('match');
               });
         });
-  })
+  });
 
   socket.on('disconnect', () => {
     console.log('a user disconnected');

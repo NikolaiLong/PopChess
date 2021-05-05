@@ -38,7 +38,22 @@ export class GameService {
 
   public register(user: any): void {
     this.socket.emit('register', user);
-    this.socket.on('message', message => {
+    this.socket.on('register', message => {
+      console.log(message);
+      this.router.navigate(['/login']);
+    });
+    this.socket.on('error', message => {
+      console.log(message);
+    });
+  }
+
+  public login(body: any): void {
+    this.socket.emit('login', body);
+    this.socket.on('login', message => {
+      console.log(message);
+      this.router.navigate(['/']);
+    });
+    this.socket.on('error', message => {
       console.log(message);
     });
   }
