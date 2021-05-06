@@ -82,6 +82,7 @@ io.on('connection', socket => {
   socket.on('getBoard', gameID => {
     board.getBoard(gameID)
         .then(pieces => {
+            console.log(pieces);
             socket.emit('gotBoard', pieces);
         })
   })

@@ -8,7 +8,16 @@ module.exports = {
     getBoard,
 };
 
-async function getBoard(gameID) {
-    const game = Game.findOne({gameID: gameID});
-    return game.board;
+async function getBoard(id) {
+    console.log(id);
+    const games = await Game.find();
+    for (let game in games) {
+        // console.log(games[game].gameID);
+        if (games[game].gameID === id) {
+            console.log(games[game].board)
+            return games[game].board;
+        }
+    }
+    return null;
+
 }

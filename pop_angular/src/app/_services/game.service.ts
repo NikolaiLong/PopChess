@@ -52,13 +52,13 @@ export class GameService {
         const timer = setInterval(() => {
           this.socket.emit('getUser', this.currentUser.username);
           this.socket.on('gotUser', user => {
-            this.currentUser = user;
+            this.currentUser = user[0];
           });
           if (this.currentUser.gameID !== -1) {
             this.router.navigate(['/game']);
             clearInterval(timer);
           }
-        }, 2000);
+        }, 500);
       }
     }, 2000);
   }
@@ -90,12 +90,25 @@ export class GameService {
     this.currentUser = null;
   }
 
-  public getBoard(): void {
-    this.socket.emit('getBoard', this.currentUser.gameID);
-    let retBoard;
-    this.socket.on('gotBoard', board => {
-      retBoard = board;
+  public getUser(): any {
+    console.log('get user:');
+    console.log(this.currentUser[0]);
+    this.socket.emit('getUser', this.currentUser.username);
+    this.socket.on('gotUser', user => {
+      this.currentUser = user[0];
+      console.log('curr user:');
+      console.log(this.currentUser);
     });
-    return retBoard;
+  }
+
+  public async getBoard(): Promise<any> {
+    console.log('this.currentUser.gameID', this.currentUser.gameID);
+    this.socket.emit('getBoard', this.currentUser.gameID);
+    this.socket.on('gotBoard', board => {
+      console.log('got boards');
+      console.log(board);
+      // return board;
+      return new Promise(board);
+    });
   }
 }

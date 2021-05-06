@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const schema = new Schema({
         gameID: {type: Number, unique: true},
-        board: [{ type: Number}],
+        board: [{type: Number}],
     }
 );
 
