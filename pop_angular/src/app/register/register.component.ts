@@ -43,7 +43,8 @@ export class RegisterComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       username: ['', [Validators.required, Validators.pattern('^[a-zA-Z]+$')]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      gameID: ['']
+      gameID: [''],
+      inQueue: [''],
 
     });
 
@@ -58,6 +59,7 @@ export class RegisterComponent implements OnInit {
   onSubmit(): void {
     this.submitted = true;
     this.registerForm.value.gameID = -1;
+    this.registerForm.value.inQueue = false;
     if (this.registerForm.invalid) {
       console.log('Error in onSubmit()');
       return;

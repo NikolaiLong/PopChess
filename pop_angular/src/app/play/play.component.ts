@@ -15,13 +15,9 @@ export class PlayComponent implements OnInit {
   constructor(private authService: AuthService,
               private gameService: GameService,) { }
 
-  ngOnInit(): void {
-    const stringQ = localStorage.getItem('queue');
-    if (stringQ === 'true') {
-      this.inQueue = true;
-    } else {
-      this.inQueue = false;
-    }
+  async ngOnInit(): Promise<any> {
+    await this.gameService.getUser();
+    this.inQueue = this.gameService.currentUser.inQueue;
   }
 
   queue(time: number, inc: number): void {

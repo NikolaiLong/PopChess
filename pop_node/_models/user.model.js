@@ -7,6 +7,7 @@ const schema = new Schema({
         hash: { type: String, required: true },
         role: { type: String, required: true},
         gameID: { type: Number, required: true},
+        inQueue: { type: Boolean, required: true},
     }
 );
 

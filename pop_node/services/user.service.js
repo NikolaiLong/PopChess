@@ -15,8 +15,7 @@ async function authenticate(username, password) {
 
     let user = await User.findOne({ username });
     if (user) {
-        console.log('uuuu');
-        await User.updateOne({username: username}, {$set:{gameID: -1}});
+        await User.updateOne({username: username}, {$set:{gameID: -1, inQueue: false}});
         user = await User.findOne({ username });
         console.log(user);
     }

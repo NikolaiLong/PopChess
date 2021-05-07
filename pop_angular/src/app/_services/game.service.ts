@@ -30,7 +30,7 @@ export class GameService {
     this.socket = io(environment.SOCKET_ENDPOINT);
     this.socket.on('connect', message => {
       console.log('connected');
-      this.currentUser = localStorage.getItem('user');
+      this.currentUser = JSON.parse(localStorage.getItem('user'));
     });
   }
 
@@ -88,7 +88,6 @@ export class GameService {
     this.socket.on('login', user => {
       this.currentUser = user;
       localStorage.setItem('user', JSON.stringify(user));
-      console.log(localStorage.getItem('user'));
       console.log(this.currentUser);
       this.router.navigate(['/']);
     });
@@ -103,22 +102,27 @@ export class GameService {
     localStorage.removeItem('queue');
   }
 
-  public getUser(): void {
-    this.userUpdate = false;
-    this.socket.emit('getUser', localStorage.getItem('user'));
-    this.socket.on('gotUser', user => {
-      this.currentUser = user[0];
-      localStorage.setItem('user', JSON.stringify(user[0]));
-      this.userUpdate = true;
+  public async getUser(): Promise<any> {
+    // this.userUpdate = false;
+    this.socket.emit('getUser', JSON.parse(localStorage.getItem('user')).username);
+    return new Promise<any>((resolve, reject) => {
+      this.socket.on('gotUser', user => {
+        // this.userUpdate = true;
+        this.currentUser = user[0];
+        localStorage.setItem('user', JSON.stringify(user[0]));
+      });
     });
   }
 
-  public getBoard(): void {
-    this.updated = false;
+  public async getBoard(): Promise<any> {
+    // this.updated = false;
     this.socket.emit('getBoard', this.currentUser.gameID);
-    this.socket.on('gotBoard', board => {
-      this.board = board;
-      this.updated = true;
+    return new Promise<any>((resolve, reject) => {
+      this.socket.on('gotBoard', board => {
+        this.board = board;
+        console.log(board);
+        // this.updated = true;
+      });
     });
   }
 

@@ -39,17 +39,13 @@ export class GameComponent implements OnInit {
     private notifService: NotificationService,
   ) { }
 
-  ngOnInit(): void {
-    this.gameService.getUser();
-    const inter = setInterval(() => {
-      if (this.gameService.userUpdate) {
-        this.updateBoard();
-        clearInterval(inter);
-      }
-    }, 500);
+  async ngOnInit(): Promise<any> {
+    await this.gameService.getUser();
+    await this.updateBoard();
   }
 
-  sendMove(): void {
+  async sendMove(): Promise<any> {
+    console.log('sending move');
     const pieces: number[] = [];
     let count = 0;
     for (let i = 0; i < 64; i++) {
@@ -62,30 +58,21 @@ export class GameComponent implements OnInit {
       this.notifService.showNotif('error: select two spaces to make a move');
       return;
     }
-    this.gameService.sendMove(pieces);
-    const inter = setInterval(() => {
-      if (this.gameService.moved) {
-        console.log('update after move');
-        this.updateBoard();
-        clearInterval(inter);
-      }
-    }, 500);
+    await this.gameService.sendMove(pieces);
+    this.buttons[pieces[0]].clicked = false;
+    this.buttons[pieces[1]].clicked = false;
+    await this.updateBoard();
   }
 
-  updateBoard(): void {
-    this.gameService.getBoard();
-    const inter = setInterval(() => {
-      if (this.gameService.updated) {
-        const board = this.gameService.board;
-        console.log('board', board);
-        for (let i = 0; i < 64; i++) {
-          this.buttons[i].value = board[i];
-        }
-        const container = document.getElementById('board');
-        const content = container.innerHTML;
-        container.innerHTML = content;
-        clearInterval(inter);
-      }
-    }, 500);
+  async updateBoard(): Promise<any> {
+    console.log('updating board');
+    await this.gameService.getBoard();
+    const board = this.gameService.board;
+    for (let i = 0; i < 64; i++) {
+      this.buttons[i].value = board[i];
+    }
+    const container = document.getElementById('board');
+    const content = container.innerHTML;
+    container.innerHTML = content;
   }
 }

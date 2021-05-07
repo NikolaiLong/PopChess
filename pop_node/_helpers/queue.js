@@ -33,6 +33,7 @@ async function enQueue(username){
     if (found !== null) {
         throw 'Username "' + username + '" is already in the queue';
     }
+    await User.updateOne({username: username}, {$set: {inQueue: true}});
 
     // add user to queue
     const inq = new Queue({userID: user._id});
@@ -41,12 +42,9 @@ async function enQueue(username){
 }
 
 async function inQueue(username){
-    if (queueCount === 1) {
+    if (queueCount < 2) {
         return false;
     }
-    let id1;
-    let id2;
-    let index = 0;
     const opponents = await Queue.find();
     await foundMatch(opponents[0].userID, opponents[1].userID);
     return true;
@@ -56,8 +54,8 @@ async function foundMatch(id1, id2) {
     const gameID = Date.now();
     const newGame = new Game({gameID: gameID, board: gameStart});
     await newGame.save();
-    await User.updateOne({_id: id1}, {$set:{gameID: gameID}});
-    await User.updateOne({_id: id2}, {$set:{gameID: gameID}});
+    await User.updateOne({_id: id1}, {$set:{gameID: gameID, inQueue: false}});
+    await User.updateOne({_id: id2}, {$set:{gameID: gameID, inQueue: false}});
     queueCount -= 2;
     const out = await Queue.deleteOne({userID: id1});
     await Queue.deleteOne({userID: id2});
