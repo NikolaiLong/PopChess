@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AuthService} from '../_services/auth.service';
+import {GameService} from '../_services/game.service';
 @Component({
   selector: 'app-play',
   templateUrl: './play.component.html',
@@ -11,10 +12,16 @@ export class PlayComponent implements OnInit {
 
   inQueue: boolean;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService,
+              private gameService: GameService,) { }
 
   ngOnInit(): void {
-    // this.inQueue = this.authService.currentUserValue().inQueue;
+    const stringQ = localStorage.getItem('queue');
+    if (stringQ === 'true') {
+      this.inQueue = true;
+    } else {
+      this.inQueue = false;
+    }
   }
 
   queue(time: number, inc: number): void {
@@ -22,8 +29,13 @@ export class PlayComponent implements OnInit {
       this.time = time;
       this.increment = inc;
     }
-    this.inQueue = true;
-    // this.authService.currentUserValue().inQueue = true;
+    this.gameService.inQueue();
+    const stringQ = localStorage.getItem('queue');
+    if (stringQ === 'true') {
+      this.inQueue = true;
+    } else {
+      this.inQueue = false;
+    }
   }
 
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Piece} from '../_models/piece';
 import {GameService} from '../_services/game.service';
+import {NotificationService} from '../_services/notification.service';
 
 @Component({
   selector: 'app-game',
@@ -33,26 +34,58 @@ export class GameComponent implements OnInit {
     {clicked: false, value: 2, col: 0, row: 7}, {clicked: false, value: 3, col: 1, row: 7}, {clicked: false, value: 4, col: 2, row: 7}, {clicked: false, value: 5, col: 3, row: 7},
     {clicked: false, value: 6, col: 4, row: 7}, {clicked: false, value: 4, col: 5, row: 7}, {clicked: false, value: 3, col: 6, row: 7}, {clicked: false, value: 2, col: 7, row: 7}];
 
-  user;
-
   constructor(
     private gameService: GameService,
+    private notifService: NotificationService,
   ) { }
 
   ngOnInit(): void {
     this.gameService.getUser();
-    this.updateBoard();
+    const inter = setInterval(() => {
+      if (this.gameService.userUpdate) {
+        this.updateBoard();
+        clearInterval(inter);
+      }
+    }, 500);
   }
 
   sendMove(): void {
-
+    const pieces: number[] = [];
+    let count = 0;
+    for (let i = 0; i < 64; i++) {
+      if (this.buttons[i].clicked) {
+        pieces[count] = i;
+        count++;
+      }
+    }
+    if (count !== 2) {
+      this.notifService.showNotif('error: select two spaces to make a move');
+      return;
+    }
+    this.gameService.sendMove(pieces);
+    const inter = setInterval(() => {
+      if (this.gameService.moved) {
+        console.log('update after move');
+        this.updateBoard();
+        clearInterval(inter);
+      }
+    }, 500);
   }
 
-  async updateBoard(): Promise<any> {
-    const board = await this.gameService.getBoard();
-    console.log(board);
-    for (let i = 0; i < 64; i++) {
-        this.buttons[i].value = board[i];
-    }
+  updateBoard(): void {
+    this.gameService.getBoard();
+    const inter = setInterval(() => {
+      if (this.gameService.updated) {
+        const board = this.gameService.board;
+        console.log('board', board);
+        for (let i = 0; i < 64; i++) {
+          this.buttons[i].value = board[i];
+        }
+        const container = document.getElementById('board');
+        const content = container.innerHTML;
+        container.innerHTML = content;
+        clearInterval(inter);
+      }
+    }, 500);
   }
 }

@@ -14,9 +14,7 @@ app.use(function(req, res, next) {
   next();
 });
 app.use(cors());
-app.get('/', function(req, res) {
-  res.json("hello world");
-});
+app.get('/', function(req, res) {});
 app.use('/user', require('./routes/user.router'));
 app.use('/game', require('./routes/game.router'));
 
@@ -85,6 +83,17 @@ io.on('connection', socket => {
             console.log(pieces);
             socket.emit('gotBoard', pieces);
         })
+  });
+
+  socket.on('sendMove', args => {
+      board.move(args.id, args.piece)
+          .then(() => {
+              socket.emit('gotMove');
+          })
+          .catch(err => {
+              console.log('logging in error');
+              socket.emit('error', err);
+          });
   })
 
   socket.on('disconnect', () => {

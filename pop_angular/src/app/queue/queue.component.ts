@@ -20,7 +20,6 @@ export class QueueComponent implements OnInit {
               private notifService: NotificationService) { }
 
   ngOnInit(): void {
-    const user = this.authService.currentUserValue();
-    this.gameService.inQueue();
+
   }
 }

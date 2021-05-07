@@ -22,19 +22,21 @@ export class AppComponent implements OnInit {
 
   constructor(  private router: Router,
                 private authService: AuthService,
-                private gameSercive: GameService) { }
+                private gameSercive: GameService) {
+
+  }
 
   ngOnInit(): void {
     this.gameSercive.connect();
   }
 
-  isAdmin(): boolean {
-    return this.currentUser && this.currentUser.role === Role.admin;
-  }
-
-  isUser(): User {
-    return this.currentUser;
-  }
+  // isAdmin(): boolean {
+  //   return this.currentUser && this.currentUser.role === Role.admin;
+  // }
+  //
+  // isUser(): User {
+  //   return this.currentUser;
+  // }
 
   logout(): void {
     this.authService.logout();

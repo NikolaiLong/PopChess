@@ -6,6 +6,7 @@ import {QueueMessage} from '../_models/queueMessage';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {environment} from '../_models/environment';
 import {Router} from '@angular/router';
+import {User} from '../_models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -14,18 +15,22 @@ export class GameService {
 
   socket;
   currentUser;
+  board;
+
   match = false;
+  updated;
+  moved;
+  userUpdate = false;
 
   constructor(private http: HttpClient,
               private auth: AuthService,
-              private router: Router) {
-    this.currentUser = null;
-  }
+              private router: Router) { }
 
   public connect(): void {
     this.socket = io(environment.SOCKET_ENDPOINT);
     this.socket.on('connect', message => {
       console.log('connected');
+      this.currentUser = localStorage.getItem('user');
     });
   }
 
@@ -38,6 +43,7 @@ export class GameService {
   }
 
   public inQueue(): void {
+    localStorage.setItem('queue', 'true');
     this.socket.emit('enterQueue', this.currentUser.username);
     this.socket.on('message', message => {
       console.log(message);
@@ -45,6 +51,7 @@ export class GameService {
     this.socket.on('match', () => {
       this.match = true;
       console.log('match');
+      localStorage.setItem('queue', 'false');
       this.router.navigate(['/game']);
     });
     setTimeout(() => {
@@ -53,8 +60,10 @@ export class GameService {
           this.socket.emit('getUser', this.currentUser.username);
           this.socket.on('gotUser', user => {
             this.currentUser = user[0];
+            localStorage.setItem('user', JSON.stringify(user[0]));
           });
           if (this.currentUser.gameID !== -1) {
+            localStorage.setItem('queue', 'false');
             this.router.navigate(['/game']);
             clearInterval(timer);
           }
@@ -78,6 +87,8 @@ export class GameService {
     this.socket.emit('login', body);
     this.socket.on('login', user => {
       this.currentUser = user;
+      localStorage.setItem('user', JSON.stringify(user));
+      console.log(localStorage.getItem('user'));
       console.log(this.currentUser);
       this.router.navigate(['/']);
     });
@@ -88,27 +99,34 @@ export class GameService {
 
   public logout(): void {
     this.currentUser = null;
+    localStorage.removeItem('user');
+    localStorage.removeItem('queue');
   }
 
-  public getUser(): any {
-    console.log('get user:');
-    console.log(this.currentUser[0]);
-    this.socket.emit('getUser', this.currentUser.username);
+  public getUser(): void {
+    this.userUpdate = false;
+    this.socket.emit('getUser', localStorage.getItem('user'));
     this.socket.on('gotUser', user => {
       this.currentUser = user[0];
-      console.log('curr user:');
-      console.log(this.currentUser);
+      localStorage.setItem('user', JSON.stringify(user[0]));
+      this.userUpdate = true;
     });
   }
 
-  public async getBoard(): Promise<any> {
-    console.log('this.currentUser.gameID', this.currentUser.gameID);
+  public getBoard(): void {
+    this.updated = false;
     this.socket.emit('getBoard', this.currentUser.gameID);
     this.socket.on('gotBoard', board => {
-      console.log('got boards');
-      console.log(board);
-      // return board;
-      return new Promise(board);
+      this.board = board;
+      this.updated = true;
+    });
+  }
+
+  public sendMove(pieces: number[]): void {
+    this.moved = false;
+    this.socket.emit('sendMove', {id: this.currentUser.gameID, piece: pieces});
+    this.socket.on('gotMove', () => {
+      this.moved = true;
     });
   }
 }
