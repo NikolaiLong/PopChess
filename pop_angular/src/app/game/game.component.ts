@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import {Piece} from '../_models/piece';
 import {GameService} from '../_services/game.service';
 import {NotificationService} from '../_services/notification.service';
@@ -9,8 +9,18 @@ import {NotificationService} from '../_services/notification.service';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
+  @Output() sendPiece = new EventEmitter();
 
-  buttons: Piece[] = [{clicked: false, value: -2, col: 0, row: 0}, {clicked: false, value: -3, col: 1, row: 0}, {clicked: false, value: -4, col: 2, row: 0}, {clicked: false, value: -5, col: 3, row: 0},
+  buttons: Piece[];
+
+  constructor(
+    private gameService: GameService,
+    private notifService: NotificationService,
+  ) { }
+
+  async ngOnInit(): Promise<any> {
+    this.gameService.startGame();
+    this.buttons = [{clicked: false, value: -2, col: 0, row: 0}, {clicked: false, value: -3, col: 1, row: 0}, {clicked: false, value: -4, col: 2, row: 0}, {clicked: false, value: -5, col: 3, row: 0},
     {clicked: false, value: -6, col: 4, row: 0}, {clicked: false, value: -4, col: 5, row: 0}, {clicked: false, value: -3, col: 6, row: 0}, {clicked: false, value: -2, col: 7, row: 0},
 
     {clicked: false, value: -1, col: 0, row: 1}, {clicked: false, value: -1, col: 1, row: 1}, {clicked: false, value: -1, col: 2, row: 1}, {clicked: false, value: -1, col: 3, row: 1},
@@ -33,13 +43,6 @@ export class GameComponent implements OnInit {
 
     {clicked: false, value: 2, col: 0, row: 7}, {clicked: false, value: 3, col: 1, row: 7}, {clicked: false, value: 4, col: 2, row: 7}, {clicked: false, value: 5, col: 3, row: 7},
     {clicked: false, value: 6, col: 4, row: 7}, {clicked: false, value: 4, col: 5, row: 7}, {clicked: false, value: 3, col: 6, row: 7}, {clicked: false, value: 2, col: 7, row: 7}];
-
-  constructor(
-    private gameService: GameService,
-    private notifService: NotificationService,
-  ) { }
-
-  async ngOnInit(): Promise<any> {
     await this.gameService.getUser();
     await this.updateBoard();
   }
@@ -66,13 +69,15 @@ export class GameComponent implements OnInit {
 
   async updateBoard(): Promise<any> {
     console.log('updating board');
-    await this.gameService.getBoard();
-    const board = this.gameService.board;
+    const board = await this.gameService.getBoard();
     for (let i = 0; i < 64; i++) {
       this.buttons[i].value = board[i];
+      // console.log('update button', this.buttons[i].value);
     }
-    const container = document.getElementById('board');
-    const content = container.innerHTML;
-    container.innerHTML = content;
+    console.log(this.buttons);
+    // location.reload();
+    // const container = document.getElementById('but');
+    // const content = container.innerHTML;
+    // container.innerHTML = content;
   }
 }

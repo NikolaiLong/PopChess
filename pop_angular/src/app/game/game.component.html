@@ -10,8 +10,8 @@
     <mat-grid-tile colspan="5" rowspan="8">
       <mat-card id="board" class="board">
         <mat-grid-list class="grid" cols="8" rowHeight="75px">
-          <mat-grid-tile *ngFor="let button of buttons" colspan="1">
-            <app-game-button class="game-button" [piece]="button"></app-game-button>
+          <mat-grid-tile id="pc" *ngFor="let button of buttons" colspan="1">
+            <app-game-button id="but" class="game-button" [piece]="button"></app-game-button>
           </mat-grid-tile>
         </mat-grid-list>
       </mat-card>

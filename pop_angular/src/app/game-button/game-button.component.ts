@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Piece} from '../_models/piece';
+import {GameService} from '../_services/game.service';
 
 @Component({
   selector: 'app-game-button',
@@ -7,6 +8,7 @@ import {Piece} from '../_models/piece';
   styleUrls: ['./game-button.component.css']
 })
 export class GameButtonComponent implements OnInit {
+  // @Input() getPiece: = new Event
   @Input() piece: Piece;
 
   color: string;
@@ -15,7 +17,7 @@ export class GameButtonComponent implements OnInit {
   iconColor: string;
   iconFont: string;
 
-  constructor() { }
+  constructor(private gameService: GameService) {}
 
   ngOnInit(): void {
     if ((this.piece.col + this.piece.row) % 2 === 0) {
@@ -24,7 +26,9 @@ export class GameButtonComponent implements OnInit {
       this.color = 'black';
     }
     this.base = this.color;
-    this.chooseIcon();
+    setInterval(() => {
+      this.chooseIcon();
+    }, 1000);
   }
 
   clicked(): void {
@@ -38,12 +42,13 @@ export class GameButtonComponent implements OnInit {
   }
 
   chooseIcon(): void {
-    if (this.piece.value < 0){
+    const value = this.gameService.board[(this.piece.row * 8) + this.piece.col];
+    if (value < 0){
       this.iconColor = '#9400D3';
     } else {
       this.iconColor = '#87CEEB';
     }
-    switch (this.piece.value) {
+    switch (value) {
       case 0:
         this.icon = '';
         this.iconFont = '';

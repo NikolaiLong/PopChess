@@ -18,9 +18,7 @@ export class GameService {
   board;
 
   match = false;
-  updated;
   moved;
-  userUpdate = false;
 
   constructor(private http: HttpClient,
               private auth: AuthService,
@@ -40,6 +38,23 @@ export class GameService {
       return false;
     }
     return true;
+  }
+
+  public startGame(): void {
+    const board = JSON.parse(localStorage.getItem('board'));
+    if (board !== null) {
+      this.board = board;
+    } else {
+      this.board =
+        [-2, -3, -4, -5, -6, -4, -3, -2,
+          -1, -1, -1, -1, -1, -1, -1, -1,
+          0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0, 0, 0, 0,
+          1, 1, 1, 1, 1, 1, 1, 1,
+          2, 3, 4, 5, 6, 4, 3, 2];
+    }
   }
 
   public inQueue(): void {
@@ -100,14 +115,13 @@ export class GameService {
     this.currentUser = null;
     localStorage.removeItem('user');
     localStorage.removeItem('queue');
+    localStorage.removeItem('board');
   }
 
   public async getUser(): Promise<any> {
-    // this.userUpdate = false;
     this.socket.emit('getUser', JSON.parse(localStorage.getItem('user')).username);
     return new Promise<any>((resolve, reject) => {
       this.socket.on('gotUser', user => {
-        // this.userUpdate = true;
         this.currentUser = user[0];
         localStorage.setItem('user', JSON.stringify(user[0]));
       });
@@ -115,13 +129,13 @@ export class GameService {
   }
 
   public async getBoard(): Promise<any> {
-    // this.updated = false;
     this.socket.emit('getBoard', this.currentUser.gameID);
     return new Promise<any>((resolve, reject) => {
       this.socket.on('gotBoard', board => {
         this.board = board;
         console.log(board);
-        // this.updated = true;
+        localStorage.setItem('board', JSON.stringify(board));
+        return resolve(this.board);
       });
     });
   }

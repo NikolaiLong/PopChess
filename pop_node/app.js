@@ -1,4 +1,6 @@
-const app = require('express')();
+const express = require('express');
+const app = express();
+const path = require('path');
 const http = require('http').createServer(app);
 const io = require('socket.io')(http, {
   cors:{
@@ -13,8 +15,11 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+
+// app.use('/', express.static(path.join(__dirname+'../pop_angular/dist/PopChess')));
+// process.env.NODE_ENV = 'production';
 app.use(cors());
-app.get('/', function(req, res) {});
+// app.get('/', function(req, res) {});
 app.use('/user', require('./routes/user.router'));
 app.use('/game', require('./routes/game.router'));
 
