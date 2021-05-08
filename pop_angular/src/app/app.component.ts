@@ -17,7 +17,7 @@ import {Role} from './_models/role';
 export class AppComponent implements OnInit {
   title = 'PopChess';
   username = 'hi';
-  currentUser: User;
+  currentUser: string;
   initials;
 
   constructor(  private router: Router,
@@ -28,6 +28,10 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.gameSercive.connect();
+  }
+
+  get isUser(): string {
+      return localStorage.getItem('user');
   }
 
   // isAdmin(): boolean {
