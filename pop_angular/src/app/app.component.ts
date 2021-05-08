@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
   }
 
   get isUser(): string {
-      return localStorage.getItem('user');
+      return this.gameSercive.currentUser;
   }
 
   // isAdmin(): boolean {
